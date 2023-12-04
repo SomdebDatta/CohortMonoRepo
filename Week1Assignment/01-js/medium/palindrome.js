@@ -5,7 +5,8 @@
 
 function isPalindrome(str) {
   str = str.toLowerCase();
-  str = str.replace(/\s[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g, '');
+  str = str.replace(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g, '');
+  str = str.replace(/\s/g, '');
   // str = str.replace(/ /g, "");
   console.log(str);
   const len = str.length;
@@ -23,5 +24,5 @@ function isPalindrome(str) {
     return true
   }
 }
-console.log(isPalindrome("awa!"))
+console.log(isPalindrome("Able, was I ere I saw Elba!"))
 module.exports = isPalindrome;
