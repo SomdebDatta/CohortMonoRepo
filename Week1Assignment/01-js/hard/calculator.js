@@ -16,6 +16,49 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
-
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+  add(n) {
+    this.result = this.result + n;
+  }
+  subtract(n) {
+    this.result = this.result - n;
+  }
+  multiply(n) {
+    this.result = this.result * n;
+  }
+  divide(n) {
+    if (n == 0) {
+      throw new Error("Division by zero is not allowed.");
+    }
+    this.result = this.result / n;
+  }
+  clear() {
+    this.result = 0;
+  }
+  getResult() {
+    return this.result;
+  }
+  calculate(xyz) {
+    xyz = xyz.replace(/\s/g, "");
+    if (xyz.search(/[a-zA-Z]/g) >= 0) {
+      throw new Error("Alphabets not allowed in the expression.");
+    }
+    if (xyz.search("/0") >= 0) {
+      throw new Error("Division by zero is not allowed.");
+    }
+    this.result = eval(xyz);
+  }
+}
+const firstTry = new Calculator();
+firstTry.add(5);
+console.log(firstTry.getResult());
+firstTry.subtract(2);
+console.log(firstTry.getResult());
+firstTry.divide(3);
+console.log(firstTry.getResult());
+firstTry.multiply(53);
+console.log(firstTry.getResult());
 module.exports = Calculator;

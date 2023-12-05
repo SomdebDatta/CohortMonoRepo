@@ -1,4 +1,9 @@
-let mystr = "hollebye \\[";
+/*let mystr = "hollebye \\[";
 console.log(mystr + " " + mystr.length)
 replaced_str = mystr.replace(/[\shello]/g, "")
-console.log(replaced_str + " " + replaced_str.length);
+console.log(replaced_str + " " + replaced_str.length);*/
+{
+    
+    var x = 15;
+}
+console.log(x);
