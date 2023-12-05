@@ -9,5 +9,27 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let sum = 1;
+    for (i=2; i<n; i++){
+        sum+=i;
+    }
+    return sum;
 }
+
+const startTime = new Date();
+console.log("Sum -", calculateTime(100));
+const endTime = new Date();
+const executionTime = endTime - startTime;
+console.log("Execution time", executionTime,"milliseconds.");
+
+const startTime2 = new Date();
+console.log("Sum -", calculateTime(100000));
+const endTime2 = new Date();
+const executionTime2 = endTime2 - startTime2;
+console.log("Execution time", executionTime2,"milliseconds.");
+
+const startTime3 = new Date();
+console.log("Sum -", calculateTime(1000000000));
+const endTime3 = new Date();
+const executionTime3 = endTime3 - startTime3;
+console.log("Execution time", executionTime3,"milliseconds.");
