@@ -16,13 +16,13 @@ function isPalindrome(str) {
   let n = len-1;
   for (i=0; i<len/2; i++){
     if(str[i] != str[n]){
-      return false
+      return false;
     }
     else{
       n = n-1;
     }
-    return true
+    return true;
   }
 }
-console.log(isPalindrome("Able, was I ere I saw Elba!"))
+console.log(isPalindrome("Able, was I ere I saw Elba!"));
 module.exports = isPalindrome;
