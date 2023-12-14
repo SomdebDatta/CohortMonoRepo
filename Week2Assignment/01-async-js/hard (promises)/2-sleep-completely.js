@@ -5,6 +5,19 @@
  */
 
 function sleep(milliseconds) {
+    return new Promise(function(resolve) {
+        setTimeout(function () {
+            resolve();
+    }, milliseconds);
+        start_time = new Date();
+        while (true) {
+            if (new Date() - start_time > milliseconds) {
+                break;
+            }
+        }
+    })
 }
 
+sleep(5000);
+console.log("hello this is outside sleep func call")
 module.exports = sleep;
