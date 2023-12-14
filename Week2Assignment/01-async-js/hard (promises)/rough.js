@@ -1,13 +1,19 @@
-const p1 = new Promise(function(resolve) {
-    start_time = new Date();
-    setTimeout(() => {
-        console.log("This is inside setTimeout");
-        ans = new Date() - start_time;
-        resolve(ans);
-    }, 1000)
-    
-})
+function hello() {
+    console.log("Hello World!")
+    return new Promise(function(resolve) {
+        resolve("Done scenes.")
+    })
+};
 
-p1.then((value) => {
-    console.log(`Time - ${value}`);
-});
+function hello2() {
+    console.log("Hello World2!")
+};
+
+function hello3() {
+    console.log("Hello World3!")
+};
+
+const promise = hello();
+console.log(promise);
+// const promise2 = promise.then(hello2).then(hello3);
+// const promise3 = promise2.then(hello3);
