@@ -1,3 +1,13 @@
-start_time = new Date();
-for(let i=0; i<15000000000; i++) {};
-console.log((new Date() - start_time) / 1000);
+const p1 = new Promise(function(resolve) {
+    start_time = new Date();
+    setTimeout(() => {
+        console.log("This is inside setTimeout");
+        ans = new Date() - start_time;
+        resolve(ans);
+    }, 1000)
+    
+})
+
+p1.then((value) => {
+    console.log(`Time - ${value}`);
+});
