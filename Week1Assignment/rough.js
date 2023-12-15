@@ -1,9 +1,10 @@
-/*let mystr = "hollebye \\[";
-console.log(mystr + " " + mystr.length)
-replaced_str = mystr.replace(/[\shello]/g, "")
-console.log(replaced_str + " " + replaced_str.length);*/
-{
-    
-    var x = 15;
+function findSum(n=100) {
+    let sum = 0;
+    for (i=1;i<=n;i++) {
+        sum += i;
+    }
+    console.log(sum);
+    return sum;
 }
-console.log(x);
+setTimeout(findSum, 3000);
+console.log("Hello World!");
