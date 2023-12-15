@@ -59,21 +59,32 @@
   ];
 
 app.get('/todos', (req, res) => {
-  console.log(req.body);
-  console.log(req.headers);
+  // console.log(req.body);
+  // console.log(req.headers);
   res.send(all_todos);
 });
 
 app.get('/todos/:id', (req, res) => {
   const id = req.params.id;
-  console.log(id);
   for (let i=0; i<all_todos.length; i++) {
     todo = all_todos[i];
     if (todo['id'] == id) {
       res.send(todo);
     }
-  res.status(404).send({"Message": "Not found."});
   }
+  res.status(404).send({"Message": "Not found."});
+})
+
+app.post('/todos', (req, res) => {
+  let new_todo = req.body;
+  new_todo['id'] = uuid.v4();
+  console.log(new_todo)
+  all_todos.push(new_todo);
+  console.log(all_todos);
+  res.status(201).send({"id": `${new_todo['id']}`});
+})
+
+app.put('/todos/:id', (req, res) => {
 })
 
 app.listen(port);
