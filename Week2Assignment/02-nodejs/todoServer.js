@@ -41,22 +41,23 @@
  */
   const express = require('express');
   const uuid = require('uuid');
-  const bodyParser = require('body-parser');
   
   const app = express();
   
-  app.use(bodyParser.json());
+  app.use(express.json());
 
   const port = 3000;
 
-  let all_todos = [
-    {
-      title: "sample_todo",
-      completed: true,
-      description: "This is a sample todo",
-      id: "123"
-    }
-  ];
+  // let all_todos = [
+  //   {
+  //     title: "sample_todo",
+  //     completed: true,
+  //     description: "This is a sample todo",
+  //     id: "123"
+  //   }
+  // ];
+
+  let all_todos = [];
 
 app.get('/todos', (req, res) => {
   // console.log(req.body);
@@ -85,6 +86,38 @@ app.post('/todos', (req, res) => {
 })
 
 app.put('/todos/:id', (req, res) => {
+  let updated_todo = req.body;
+  const id = req.params.id;
+
+  for (let i=0; i<all_todos.length; i++) {
+    curr_todo = all_todos[i];
+    if (curr_todo['id'] == id) {
+      all_todos.splice(i, 1);
+      all_todos.push(updated_todo);
+      res.send({Message: "Todo found and updated succesfully."})
+      break;
+    }
+  }
+  res.status(404).send({Message: "Todo not found."})
+})
+
+app.delete('/todos/:id', (req, res) => {
+  
+  const id = req.params.id;
+  
+  for (let i=0; i<all_todos.length; i++) {
+    curr_todo = all_todos[i];
+    if (curr_todo['id'] == id) {
+      all_todos.splice(i, 1);
+      res.send({Message: "Todo found and deleted succesfully."})
+      break;
+    }
+  }
+  res.status(404).send({Message: "Todo not found."})
+})
+
+app.all("/todos/*", function(req, res) {
+  res.status(404).json({Message: "Saale kuch bhi route mat daal..."})
 })
 
 app.listen(port);
