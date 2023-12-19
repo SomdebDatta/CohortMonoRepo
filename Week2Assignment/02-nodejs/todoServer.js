@@ -39,87 +39,81 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const uuid = require('uuid');
-  
-  const app = express();
-  
-  app.use(express.json());
+const express = require('express');
+const uuid = require('uuid');
+const bodyParser = require("body-parser");
 
-  const port = 3000;
+const app = express();
 
-  // let all_todos = [
-  //   {
-  //     title: "sample_todo",
-  //     completed: true,
-  //     description: "This is a sample todo",
-  //     id: "123"
-  //   }
-  // ];
+app.use(bodyParser.json());
 
-  let all_todos = [];
+// const port = 3000;
+
+// let all_todos = [
+//   {
+//     title: "sample_todo",
+//     completed: true,
+//     description: "This is a sample todo",
+//     id: "123"
+//   }
+// ];
+
+let all_todos = [];
 
 app.get('/todos', (req, res) => {
-  // console.log(req.body);
-  // console.log(req.headers);
-  res.send(all_todos);
+  res.status(200).json(all_todos);
 });
 
 app.get('/todos/:id', (req, res) => {
-  const id = req.params.id;
-  for (let i=0; i<all_todos.length; i++) {
-    todo = all_todos[i];
-    if (todo['id'] == id) {
-      res.send(todo);
-    }
+  const todo = all_todos.find(t => t.id === req.params.id);
+  
+  if(!todo) {
+    res.status(404).json({Message: "No such todo with the specified id."});
   }
-  res.status(404).send({"Message": "Not found."});
+  else {
+    res.status(200).json(todo);
+  }
 })
 
 app.post('/todos', (req, res) => {
   let new_todo = req.body;
   new_todo['id'] = uuid.v4();
-  console.log(new_todo)
   all_todos.push(new_todo);
-  console.log(all_todos);
-  res.status(201).send({"id": `${new_todo['id']}`});
+  res.status(201).json(new_todo);
 })
 
 app.put('/todos/:id', (req, res) => {
   let updated_todo = req.body;
-  const id = req.params.id;
+  const todo_index = all_todos.findIndex(t => t.id === req.params.id);
 
-  for (let i=0; i<all_todos.length; i++) {
-    curr_todo = all_todos[i];
-    if (curr_todo['id'] == id) {
-      all_todos.splice(i, 1);
-      all_todos.push(updated_todo);
-      res.send({Message: "Todo found and updated succesfully."})
-      break;
-    }
+  if (todo_index === -1) {
+    res.status(404).json({Message: "Todo not found."})
   }
-  res.status(404).send({Message: "Todo not found."})
+  else {
+    all_todos[todo_index] = updated_todo;
+    res.json(updated_todo);
+  }
 })
 
 app.delete('/todos/:id', (req, res) => {
-  
-  const id = req.params.id;
-  
-  for (let i=0; i<all_todos.length; i++) {
-    curr_todo = all_todos[i];
-    if (curr_todo['id'] == id) {
-      all_todos.splice(i, 1);
-      res.send({Message: "Todo found and deleted succesfully."})
-      break;
-    }
+
+  const todo_index = all_todos.findIndex(t => t.id === req.params.id);
+
+  if (todo_index === -1) {
+    res.status(404).json({Message: "Todo not found."})
   }
-  res.status(404).send({Message: "Todo not found."})
+  else {
+    all_todos.splice(todo_index, 1);
+    // res.json({Message: "Todo found and deleted succesfully."});
+    res.status(200).send();
+  }
 })
 
 app.all("/todos/*", function(req, res) {
-  res.status(404).json({Message: "Saale kuch bhi route mat daal..."})
+  res.status(404).json({Message: "Saale kuch bhi route mat daal..."});
+  return;
 })
 
-app.listen(port);
+// app.listen(port);
   
 module.exports = app;
