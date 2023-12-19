@@ -42,12 +42,11 @@
 const express = require('express');
 const uuid = require('uuid');
 const bodyParser = require("body-parser");
+const fs = require("fs");
 
 const app = express();
 
 app.use(bodyParser.json());
-
-// const port = 3000;
 
 // let all_todos = [
 //   {
@@ -59,6 +58,25 @@ app.use(bodyParser.json());
 // ];
 
 let all_todos = [];
+
+const readingFromFile = (req, res, next) => {
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    console.log(`Reading all todos from file...`);
+    all_todos = JSON.parse(data);
+
+    res.on("finish", writeToFile);
+
+    next();
+  })
+}
+
+const writeToFile = () => {
+  fs.writeFile("todos.json", JSON.stringify(all_todos), (err) => {
+    console.log("Writing all todos...");
+  })
+}
+
+app.use(readingFromFile);
 
 app.get('/todos', (req, res) => {
   res.status(200).json(all_todos);
@@ -105,7 +123,7 @@ app.delete('/todos/:id', (req, res) => {
   }
   else {
     all_todos.splice(todo_index, 1);
-    res.status(200).send();
+    res.status(200).send("Todo deleted succesfully.");
   }
 })
 
@@ -114,6 +132,6 @@ app.all("/todos/*", function(req, res) {
   return;
 })
 
-// app.listen(port);
+app.listen(3000);
   
 module.exports = app;
