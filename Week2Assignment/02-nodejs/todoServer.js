@@ -90,7 +90,8 @@ app.put('/todos/:id', (req, res) => {
     res.status(404).json({Message: "Todo not found."})
   }
   else {
-    all_todos[todo_index] = updated_todo;
+    all_todos[todo_index].title = updated_todo.title;
+    all_todos[todo_index].description = updated_todo.description;
     res.json(updated_todo);
   }
 })
@@ -104,7 +105,6 @@ app.delete('/todos/:id', (req, res) => {
   }
   else {
     all_todos.splice(todo_index, 1);
-    // res.json({Message: "Todo found and deleted succesfully."});
     res.status(200).send();
   }
 })
