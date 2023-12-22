@@ -14,7 +14,23 @@ const app = express();
 let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
-}, 1000)
+}, 1000);
+
+app.use((req, res, next) => {
+  user_id = req.headers["user-id"];
+  if (numberOfRequestsForUser.hasOwnProperty(user_id)) {
+    numberOfRequestsForUser[user_id] += 1;
+  }
+  else {
+    numberOfRequestsForUser[user_id] = 1;
+  }
+  if (numberOfRequestsForUser[user_id] > 5) {
+    res.status(404).send("Too many requests by the same user.");
+  }
+  else {
+    next();
+  }
+})
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
@@ -23,5 +39,7 @@ app.get('/user', function(req, res) {
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
+
+// app.listen(3000);
 
 module.exports = app;
