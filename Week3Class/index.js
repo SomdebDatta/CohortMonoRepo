@@ -7,6 +7,19 @@ const zod = require('zod');
 
 const schema = zod.array(zod.number());
 
+
+function emailValidator(obj) {
+    const email_schema = zod.object({
+        email: zod.string().email(),
+        password: zod.string().min(8)
+    });
+
+    response = email_schema.safeParse(obj);
+    console.log(response);
+    return response;
+}
+
+
 const app = express();
 
 app.use(express.json());
@@ -18,9 +31,24 @@ app.post('/health-checkup', function(req, res) {
     // res.send('you have ' + kidneyLength + ' kidneys');
 
     const response = schema.safeParse(kidneys);
-    res.send({response});
+
+    if (!response.success) {
+        
+        res.status(411).json({Message: "Input invalid!"});
+    }
+    // res.send({response});
 
 });
+
+app.post('/login', function(req, res) {
+    response = emailValidator(req.body);
+
+    if (!response.success) {
+        res.status(411).json({Message: "Invalid login credentials."});
+        return;
+    }
+    res.json({Message: "Login successful!"});
+})
 
 
 // Global catch
