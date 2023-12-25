@@ -20,18 +20,13 @@ const app = express();
 const base_path = "./files/";
 
 app.get("/files", (req, res) => {
-  const file_list = [];
   fs.readdir(base_path, (err, files) => {
     if (err) {
       console.error(`Error reading directory`, err);
+      return res.status(500).send();
     }
-    
     console.log("Files in the directory are...");
-    files.forEach(file => {
-      file_list.push(file);
-      console.log(file);
-    })
-    res.send(file_list);
+    return res.send(files);
   })
 })
 
@@ -41,10 +36,9 @@ app.get("/file/:filename", (req, res) => {
 
   fs.readFile(file_path, (err, data) => {
     if (err) {
-      res.status(404).send("File not found");
+      return res.status(404).send("File not found");
     }
-
-    res.send(data);
+    return res.send(data);
   })
 })
 
