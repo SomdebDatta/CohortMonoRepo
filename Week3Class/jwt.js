@@ -23,7 +23,7 @@ function userExists(username, password) {
     // write logic to return true or false if the user exists
     // in ALL_USERS array
     
-    return ALL_USERS.some(element => element.username === username);
+    return ALL_USERS.some(element => element.username === username && element.password === password);
 }
 
 app.post("/signin", function(req, res) {
@@ -41,12 +41,9 @@ app.post("/signin", function(req, res) {
 
 app.get("/users", function(req, res) {
     const token = req.headers.authorization;
-    console.log(`Token - ${req.headers.authorization}`);
-    console.log(req.headers);
 
     try {
         const decoded = jwt.verify(token, jwt_pass);
-        console.log("decoded");
         const username = decoded.username;
         
         return res.send(ALL_USERS.filter(element => element.username != username));
