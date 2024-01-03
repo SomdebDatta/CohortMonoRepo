@@ -1,9 +1,8 @@
 const { Router } = require("express");
 const express = require("express");
-const uuid = require("uuid");
 
 
-const {adminMiddleware, credentialValidationMiddleware} = require("../middleware/admin");
+const { adminMiddleware } = require("../middleware/admin");
 const { Admin, Course } = require("../db/index.js");
 
 const router = Router();
@@ -15,22 +14,27 @@ app.use(express.json());
 // router.use(adminMiddleware);
 
 // Admin Routes
-router.post('/signup', credentialValidationMiddleware, async (req, res) => {
+router.post('/signup', async (req, res) => {
     // Implement admin signup logic
 
-    const response = await Admin.create({username: req.body.username, password: req.body.password});
-    return res.send("Admin created successfully.");
+    await Admin.create({username: req.body.username, password: req.body.password});
+    res.json({Message: "Admin created successfully."});
+
+    // const response = await Admin.create({username: req.body.username, password: req.body.password});
+    // return res.send("Admin created successfully.");
 });
 
 router.post('/courses', adminMiddleware, async (req, res) => {
     // Implement course creation logic
-    const id = uuid.v4();
 
-    const response = await Course.create({id: id, title: req.body.title, description: req.body.description, price: req.body.price,
-    imageLink: req.body.imageLink});
+    const response = await Course.create({
+        title: req.body.title, 
+        description: req.body.description, 
+        price: req.body.price,
+        imageLink: req.body.imageLink});
     console.log("Course created successfully.");
     
-    return res.json({Message: "Course created successfully.", courseId: id});
+    return res.json({Message: "Course created successfully.", courseId: response._id});
     
 });
 
@@ -53,5 +57,5 @@ app.use("/admin", router, (err, req, res, next) => {
     
 })
 
-app.listen(3000);
+// app.listen(3000);
 module.exports = router;

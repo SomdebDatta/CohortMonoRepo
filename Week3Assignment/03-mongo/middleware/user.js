@@ -1,8 +1,4 @@
-
-const zod = require("zod");
-
-adminUsername = zod.string();
-adminPassword = zod.string().min(6);
+const { User } = require("../db/index.js");
 
 function userMiddleware(req, res, next) {
     // Implement user auth logic
@@ -11,15 +7,15 @@ function userMiddleware(req, res, next) {
 
     username = req.headers.username;
     password = req.headers.password;
-
-    usernameResponse = adminUsername.safeParse(username);
-    passwordResponse = adminPassword.safeParse(password);
-
-    if(!(usernameResponse.success && passwordResponse.success)) {
-        console.error("Username / Password invalid");
-        throw new Error("Username / Password invalid");
-    }
-    next();
+    
+    User.findOne({username: username, password: password}).then(
+        (result) => {
+            if (!result) {
+                return res.status(403).json({Message: "User not found."});
+            }
+            return next();
+        }
+    )
 }
 
 module.exports = userMiddleware;
