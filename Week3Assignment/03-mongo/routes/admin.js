@@ -46,16 +46,4 @@ router.get('/courses', adminMiddleware, async (req, res) => {
     });
 });
 
-app.use("/admin", router, (err, req, res, next) => {
-    console.error("Error handling middleware invoked!");
-    if (err.status && err.message) {
-        return res.status(err.status).json({Message:err.message});
-    }
-    else {
-        return res.status(400).json({ErrorMessage: `Error has occurred - ${err}`});
-    }
-    
-})
-
-// app.listen(3000);
 module.exports = router;
