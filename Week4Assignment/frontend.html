@@ -1,0 +1,37 @@
+<html>
+    <script>
+        let timer;
+        function debouncedCalculateInterest() {
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                calculateInterest()
+            }, 1000);
+        }
+
+        async function calculateInterest() {
+            const principal = document.getElementById("principle").value;
+            const rate = document.getElementById("rate").value;
+            const time = document.getElementById("time").value;
+
+            const fetchStr = "http://localhost:3000/calculateInterest?principal=" + principal +
+            "&time=" + time + "&rate=" + rate;
+
+            const response = await fetch(fetchStr)
+
+            const finalResponse = await response.json();
+            
+            console.log(finalResponse);
+
+            const ansDiv = document.getElementById("finalSum");
+            ansDiv.innerHTML = `Interest - ${finalResponse.interest}  <br></br>Total - ${finalResponse.total}`;
+
+        }
+    </script>
+    <body>
+        <input oninput="debouncedCalculateInterest()" id="principle" type="text" placeholder="Principle"></input><br></br>
+        <input oninput="debouncedCalculateInterest()" id="rate" type="text" placeholder="Rate"></input><br></br>
+        <input oninput="debouncedCalculateInterest()" id="time" type="text" placeholder="Time"></input><br></br>
+        <button onclick="debouncedCalculateInterest()">Calculate Interest</button><br></br>
+        <div id="finalSum"></div>
+    </body>
+</html>
