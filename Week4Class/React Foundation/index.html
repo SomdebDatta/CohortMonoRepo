@@ -1,0 +1,68 @@
+<html>
+    <script>
+        // function addTodo() {
+        //     const title = document.getElementById("title").value;
+        //     const description = document.getElementById("description").value;
+        //     // const ogHTML = document.getElementById("todos").innerHTML;
+            
+        //     // document.getElementById("todos").innerHTML = ogHTML + `<div>
+        //     // <div>${title}</div>
+        //     // <div>${description}</div>
+        //     // <button>Mark as done</button>
+        //     // </div>`;
+            // const childDiv = document.createElement("div");
+            // const gcTitle = document.createElement("div");
+            // gcTitle.innerHTML = title;
+            // const gcDescription = document.createElement("div");
+            // gcDescription.innerHTML = description;
+            // const gcMarkAsDone = document.createElement("button");
+            // gcMarkAsDone.innerHTML = "Mark as done";
+
+            // childDiv.appendChild(gcTitle);
+            // childDiv.appendChild(gcDescription);
+            // childDiv.appendChild(gcMarkAsDone);
+            // document.getElementById("todos").appendChild(childDiv);
+
+        // }
+        let globalId = 1;
+
+        function markAsDone(id) {
+            const todo = document.getElementById(id);
+            todo.children[2].innerHTML = "Done!";
+        }
+
+        function createChild(title, description, id) {
+            const childDiv = document.createElement("div");
+            const gcTitle = document.createElement("div");
+            gcTitle.innerHTML = title;
+            const gcDescription = document.createElement("div");
+            gcDescription.innerHTML = description;
+            const gcMarkAsDone = document.createElement("button");
+            gcMarkAsDone.innerHTML = "Mark as done";
+            gcMarkAsDone.setAttribute("onclick", `markAsDone(${id})`);
+
+            childDiv.appendChild(gcTitle);
+            childDiv.appendChild(gcDescription);
+            childDiv.appendChild(gcMarkAsDone);
+            childDiv.setAttribute("id", id);
+            return childDiv;
+
+        }
+        function addTodo() {
+            const title = document.getElementById("title").value;
+            const description = document.getElementById("description").value;
+
+            document.getElementById("todos").appendChild(createChild(title, description, globalId++));
+            
+        }
+    </script>
+    
+    <div>
+        <input id="title" type="text" placeholder="title"></input>
+        <br></br>
+        <input id="description" type="text" placeholder="description"></input>
+        <br></br>
+        <button onclick="addTodo()">Add todo</button>
+        <div id="todos"></div>
+    </div>
+</html>
