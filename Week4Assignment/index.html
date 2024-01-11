@@ -32,7 +32,31 @@
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
       oldTodoState = newTodos;
+      return oldTodoState;
     }
+
+    function markAsDone(id) {
+      const todo = document.getElementById(id);
+      todo.children[2].innerHTML = "Done!";
+  }
+
+    function createChild(title, description, id) {
+      const childDiv = document.createElement("div");
+      const gcTitle = document.createElement("div");
+      gcTitle.innerHTML = title;
+      const gcDescription = document.createElement("div");
+      gcDescription.innerHTML = description;
+      const gcMarkAsDone = document.createElement("button");
+      gcMarkAsDone.innerHTML = "Mark as done";
+      gcMarkAsDone.setAttribute("onclick", `markAsDone(${id})`);
+
+      childDiv.appendChild(gcTitle);
+      childDiv.appendChild(gcDescription);
+      childDiv.appendChild(gcMarkAsDone);
+      childDiv.setAttribute("id", id);
+      return childDiv;
+
+  }
 
     function addTodo() {
       const title = document.getElementById("title").value;
@@ -42,7 +66,13 @@
         description: description,
         id: globalId++,
       })
-      updateState(todoState);
+      const updatedTodos = updateState(todoState);
+      for(let i=0; i<updatedTodos.length; i++) {
+        const title = updatedTodos[i].title;
+        const description = updatedTodos[i].description;
+
+        document.getElementById("todos").appendChild(createChild(title, description, globalId++));
+      }
     }
   </script>
 </head>
