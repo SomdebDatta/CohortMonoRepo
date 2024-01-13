@@ -1,4 +1,5 @@
 import { useState } from "react";
+import React from "react";
 
 function App() {
 
@@ -22,10 +23,12 @@ function App() {
   )
 }
 
-function Header(props) {
+const Header = React.memo(function Header(props) {
   return <div>
     {props.title}
   </div>
 }
+)
+
 
 export default App
