@@ -2,9 +2,25 @@ import { useState, useEffect } from 'react'
 import axios from "axios";
 
 function App() {
+
+  const [selectedId, setSelectedId] = useState(1);
+
+
   return (
     <>
-      <Todo id={1} />
+      <button onClick={function() {
+        setSelectedId(1);
+      }}>1</button>
+      <button onClick={function() {
+        setSelectedId(2);
+      }}>2</button>
+      <button onClick={function() {
+        setSelectedId(3);
+      }}>3</button>
+      <button onClick={function() {
+        setSelectedId(4);
+      }}>4</button>
+      <Todo id={selectedId} />
     </>
   )
 }
@@ -21,7 +37,7 @@ function Todo({id}) {
         setTodos(resp.data.todo);
       }
     )
-  }, []);
+  }, [id]);
 
 
   return <div>
