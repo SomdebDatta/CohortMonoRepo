@@ -3,24 +3,24 @@ import axios from "axios";
 
 function App() {
 
-  const [selectedId, setSelectedId] = useState(1);
+  const [id, setId] = useState(1);
 
 
   return (
     <>
       <button onClick={function() {
-        setSelectedId(1);
+        setId(1);
       }}>1</button>
       <button onClick={function() {
-        setSelectedId(2);
+        setId(2);
       }}>2</button>
       <button onClick={function() {
-        setSelectedId(3);
+        setId(3);
       }}>3</button>
       <button onClick={function() {
-        setSelectedId(4);
+        setId(4);
       }}>4</button>
-      <Todo id={selectedId} />
+      <Todo id={id} />
     </>
   )
 }
