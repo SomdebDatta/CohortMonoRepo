@@ -10,12 +10,16 @@ export function Assignment1() {
     // Your code starts here
     const handleIncrement = useCallback(() => {
         console.log("increment");
-        setCount(count => count+1);
+        setCount(function(currentCount) {
+            return currentCount + 1;
+        });
     }, []);
 
     const handleDecrement = useCallback(() => {
         console.log("decrement");
-        setCount(count => count-1);
+        setCount(function(currentCount) {
+            return currentCount - 1;
+        });
     }, []);
     // Your code ends here
 
