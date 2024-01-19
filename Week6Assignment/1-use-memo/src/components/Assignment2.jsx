@@ -20,7 +20,6 @@ for (let i = 0; i < TOTAL_LINES; i++) {
 }
 
 export function Assignment2() {
-    console.log(ALL_SENTENCES);
     const [sentences, setSentences] = useState(ALL_SENTENCES);
     const [filter, setFilter] = useState("");
 
@@ -28,7 +27,7 @@ export function Assignment2() {
 
     const filteredSentences = useMemo(() => {
         return sentences.filter(x => x.includes(filter));
-    }, [filter]);
+    }, [sentences, filter]);
 
     return <div>
         <input type="text" onChange={(e) => {
