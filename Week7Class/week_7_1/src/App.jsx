@@ -1,7 +1,13 @@
-import { Dashboard } from "./components/Dashboard"
-import { Landing } from "./components/Landing"
+// import { Dashboard } from "./components/Dashboard"
+// import { Landing } from "./components/Landing"
+import React from "react"
+import { Suspense, lazy } from "react"
+
+const Dashboard = lazy(() => import("./components/Dashboard"))
+const Landing = lazy(() => import("./components/Landing"))
 
 import { BrowserRouter, Routes, Route, useNavigate} from "react-router-dom"
+
 
 function App() {
 
@@ -9,8 +15,8 @@ function App() {
     <BrowserRouter>
     <Appbar />
       <Routes>
-          <Route path="/dashboard" element={<Dashboard />}/>
-          <Route path="/" element={<Landing />}/>
+          <Route path="/dashboard" element={<Suspense fallback={"loading..."}><Dashboard /></Suspense>} />
+          <Route path="/" element={<Suspense fallback={"loading..."}><Landing /></Suspense> }/>
       </Routes>
     </BrowserRouter>
   )
