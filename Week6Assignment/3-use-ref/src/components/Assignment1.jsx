@@ -8,7 +8,7 @@ export function Assignment1() {
 
     useEffect(() => {
         textInput.current.focus();
-    }, []);
+    }, [textInput]);
 
     const handleButtonClick = () => {
         textInput.current.focus();
