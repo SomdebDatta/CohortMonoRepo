@@ -1,6 +1,4 @@
-
-import { useContext } from "react";
-import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
+import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { countAtom } from "../store/atoms/count";
 
 function App() {
@@ -8,7 +6,7 @@ function App() {
   return (
     <div>
       <RecoilRoot>
-      <Count />
+        <Count />
       </RecoilRoot>
     </div>
   )
