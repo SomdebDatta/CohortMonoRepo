@@ -38,14 +38,10 @@ function Buttons() {
 
   return(<div>
     <button onClick={() => {
-      setCount(function(c) {
-        return c+1;
-      })
+      setCount(c => c+1)
     }}>Increment</button>
     <button onClick={() => {
-      setCount(function(c) {
-        return c-1;
-      })
+      setCount(c => c-1)
     }}>Decrement</button>
   </div>
     
