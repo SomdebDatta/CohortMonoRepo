@@ -34,14 +34,18 @@ function CountRenderer() {
 }
 
 function Buttons() {
-  const [count, setCount] = useRecoilState(countAtom);
+  const setCount = useSetRecoilState(countAtom);
 
   return(<div>
     <button onClick={() => {
-      setCount(count+1);
+      setCount(function(c) {
+        return c+1;
+      })
     }}>Increment</button>
     <button onClick={() => {
-      setCount(count-1);
+      setCount(function(c) {
+        return c-1;
+      })
     }}>Decrement</button>
   </div>
     
