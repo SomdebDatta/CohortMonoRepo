@@ -1,5 +1,6 @@
-import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState, selector } from "recoil";
 import { countAtom } from "../store/atoms/count";
+import { count_even } from "../store/atoms/count_selector";
 
 function App() {
 
@@ -35,11 +36,12 @@ function CountRenderer() {
 }
 
 function CheckEven() {
-  const count = useRecoilValue(countAtom);
+  const check_even_count = useRecoilValue(count_even);
   
-  return <div>
-    {(count%2==0) ? "Count is even" : null}
-  </div>
+  if (check_even_count) return <div>Count is even</div>
+  else {
+    return
+  }
 }
 
 function Buttons() {
@@ -53,7 +55,6 @@ function Buttons() {
       setCount(c => c-1)
     }}>Decrement</button>
   </div>
-    
   )
 }
 
