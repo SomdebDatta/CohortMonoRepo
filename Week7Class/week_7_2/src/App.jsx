@@ -36,13 +36,10 @@ function CountRenderer() {
 
 function CheckEven() {
   const count = useRecoilValue(countAtom);
-
-  if (count%2==0) {
-    return <div>It is even</div>
-  }
-  else {
-    return
-  }
+  
+  return <div>
+    {(count%2==0) ? "Count is even" : null}
+  </div>
 }
 
 function Buttons() {
