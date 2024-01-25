@@ -45,8 +45,8 @@ function BusinessCard({name, description, linkedin, github, interests}) {
       </ul>
     </div>
     <div>
-      <button style={{backgroundColor: "indigo", color:"white", padding: 10}}>LinkedIn</button>
-      <button style={{backgroundColor:"indigo", color:"white", padding: 10}}>GitHub</button>
+      <button style={{backgroundColor: "#387ed1", color:"white", padding: 10}}>LinkedIn</button>
+      <button style={{backgroundColor:"#387ed1", color:"white", padding: 10}}>GitHub</button>
     </div>
   </div>
 
