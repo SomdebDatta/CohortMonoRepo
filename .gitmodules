@@ -1,0 +1,3 @@
+[submodule "Week8Class/paytm_e2e"]
+	path = Week8Class/paytm_e2e
+	url = https://github.com/100xdevs-cohort-2/paytm.git
