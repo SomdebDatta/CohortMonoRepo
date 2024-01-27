@@ -1,43 +1,29 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import React from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 function App() {
-  const [render, setRender] = useState(true);
+  const [todos, setTodos] = useState([])
 
   useEffect(() => {
-    setInterval(() => {
-      setRender(r => !r);
-    }, 5000);
-  }, []);
+    axios.get("https://sum-server.100xdevs.com/todos")
+      .then(res => {
+        setTodos(res.data.todos);
+      })
+  }, [])
 
   return (
-    <div>
-      {render ? <MyComponent /> : <div></div>}
-      {/* <MyComponent /> */}
-    </div>
+    <>
+      {todos.map(todo => <Track todo={todo} />)}
+    </>
   )
 }
 
-class MyComponent extends React.Component {
-  componentDidMount() {
-    // Perform setup or data fetching here
-    console.log('component mounted');
-  }
-
-  componentWillUnmount() {
-    // Clean up (e.g., remove event listeners or cancel subscriptions)
-    console.log('component unmounted')
-  }
-
-  render() {
-    // Render UI
-    <div>
-      hi there
-    </div>
-  }
+function Track({ todo }) {
+  return <div>
+    {todo.title}
+    <br />
+    {todo.description}
+  </div>
 }
 
 export default App
