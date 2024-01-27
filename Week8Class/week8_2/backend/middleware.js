@@ -14,11 +14,11 @@ function authMiddleware(req, res, next) {
 
     try {
         const decodedToken = jwt.verify(jwtToken, JWT_SECRET);
-        req.username = decodedToken.username;
+        req.userId = decodedToken.userId;
         next();
     } catch(err) {
         return res.status(403).json({message: 'You are not authenticated.'});
     }
 }
 
-module.exports = authMiddleware;
+module.exports = { authMiddleware };

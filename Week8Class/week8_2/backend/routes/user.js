@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const { User } = require('../db');
 const { JWT_SECRET } = require('../config');
+const { authMiddleware } = require('../middleware');
 
 const userRouter = express.Router();
 
@@ -12,25 +13,20 @@ const signupBody = zod.object({
     firstName: zod.string(),
     lastName: zod.string(),
     password: zod.string()
-})
-
-const signinBody = zod.object({
-    username: zod.string().email(),
-    password: zod.string()
-})
+});
 
 userRouter.post('/signup', async (req, res) => {
 
-    const success = signupBody.safeParse(req.body.username);
+    const { success } = signupBody.safeParse(req.body.username);
 
     if (!success) {
-        res.status(411).json({message: 'Incorrect input.'});
+        return res.status(411).json({message: 'Incorrect input.'});
     }
 
-    const response = await User.findOne({username: req.body.username});
+    const existingUser = await User.findOne({username: req.body.username});
 
-    if (response) {
-        res.status(411).json({message: 'Email already taken'});
+    if (existingUser) {
+        return res.status(411).json({message: 'Email already taken'});
     }
     const user = await User.create({
         username: req.body.username,
@@ -39,16 +35,23 @@ userRouter.post('/signup', async (req, res) => {
         password: req.body.password
     });
 
-    const token = jwt.sign(req.body.username, JWT_SECRET);
+    const userId = user._id
+
+    const token = jwt.sign({userId}, JWT_SECRET);
     res.json({
         message: 'User created successfully',
         token: token
     });
-    }
-)
+    return;
+})
 
-userRouter.post('signin', async (req, res) => {
-    const success = signinBody.safeParse(req.body);
+const signinBody = zod.object({
+    username: zod.string().email(),
+    password: zod.string()
+});
+
+userRouter.post('/signin', async (req, res) => {
+    const { success } = signinBody.safeParse(req.body);
 
     if(!success) {
         res.status(411).json({message: 'Error logging in'});
@@ -60,12 +63,33 @@ userRouter.post('signin', async (req, res) => {
     });
 
     if (!user) {
-        res.status(411).json({message: 'Error while logging in'});
+        return res.status(411).json({message: 'Error while logging in'});
     }
 
-    const token = jwt.sign({username}, JWT_SECRET);
+    const userId = user._id;
+
+    const token = jwt.sign({userId}, JWT_SECRET);
 
     res.json({token: token});
+    return;
+})
+
+const updateBody = zod.object({
+    password: zod.string().optional(),
+    firstName: zod.string().optional(),
+    lastName: zod.string().optional()
+});
+
+userRouter.put('', authMiddleware, async (req, res) => {
+    const user = await User.updateOne({userId: req.userId}, {}, function(err, docs) {
+        if (err) {
+            console.log(err);
+            res.status(411).json({message: 'Error while updating information'});
+        }
+        else {
+            res.json({message: 'Updated successfully.'})
+        }
+    })
 })
 
 module.exports = { userRouter };
