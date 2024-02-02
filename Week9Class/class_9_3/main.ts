@@ -1,7 +1,6 @@
-function firstElement (arr: number[] | string[]) {
+function firstElement<T> (arr: T[]) {
     return arr[0]
 }
 
-const firstVal = firstElement(['somdeb', 'piks'])
-console.log(firstVal)
-console.log(firstVal.toUpperCase())
+console.log(firstElement<number>([10, 20]))
+console.log(firstElement<string>(['somdeb', 'piks']).toUpperCase())
