@@ -1,26 +1,7 @@
-const express = require('express')
-
-const app = express()
-
-enum ResponseStatus {
-    Success = 200,
-    NotFound = 404,
-    Error = 500
+function firstElement (arr: number[] | string[]) {
+    return arr[0]
 }
 
-
-interface Query {
-    userId: string
-}
-
-interface Request {
-    query: Query
-}
-
-app.get('/', (req: Request, res) => {
-    if (!req.query.userId) {
-			res.status(ResponseStatus.Error).json({})
-    }
-    // and so on...
-		res.status(ResponseStatus.Success).json({});
-})
+const firstVal = firstElement(['somdeb', 'piks'])
+console.log(firstVal)
+console.log(firstVal.toUpperCase())
